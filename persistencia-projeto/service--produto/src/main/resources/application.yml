@@ -1,0 +1,35 @@
+spring.application.name: service--produto
+
+server.port: ${SERVER_PORT:5003}
+
+logging.level:
+  org.zalando.logbook: TRACE
+
+management:
+  metrics.tags.application: ${spring.application.name}
+  endpoints:
+    web:
+      exposure.include: "*"
+      export.prometheus.enabled: true
+  endpoint:
+    health.show-components: ALWAYS
+    metrics.enabled: true
+    prometheus.enabled: true
+
+opentracing.jaeger:
+  udp-sender:
+    host: ${JAEGER_HOST:localhost}
+    port: ${JAEGER_PORT:6831}
+  log-spans: false
+  enable-b3-propagation: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQLDB_HOST:localhost}:${MYSQLDB_PORT:3306}/${MYSQLDB_DATABASE:db_produto}
+    username: ${MYSQLDB_USERNAME:root}
+    password: ${MYSQLDB_PASSWORD:root}
+  jpa:
+    show-sql: true
+  flyway:
+    locations: [classpath:db/migration]

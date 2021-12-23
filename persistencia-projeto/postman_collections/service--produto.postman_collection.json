@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "7bd0bf66-87fa-43d0-8338-e3fc292d3439",
+		"name": "service--produto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Produtos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{service-produto-host}}/produtos",
+					"host": [
+						"{{service-produto-host}}"
+					],
+					"path": [
+						"produtos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Produto por Código",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{service-produto-host}}/produtos/:codigo",
+					"host": [
+						"{{service-produto-host}}"
+					],
+					"path": [
+						"produtos",
+						":codigo"
+					],
+					"variable": [
+						{
+							"key": "codigo",
+							"value": "36c7e4b0-b178-4627-8d7b-23f5ceba598f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Baixar Estoque Produto",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantidade\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{service-produto-host}}/produtos/:codigo/baixa",
+					"host": [
+						"{{service-produto-host}}"
+					],
+					"path": [
+						"produtos",
+						":codigo",
+						"baixa"
+					],
+					"variable": [
+						{
+							"key": "codigo",
+							"value": "36c7e4b0-b178-4627-8d7b-23f5ceba598f"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

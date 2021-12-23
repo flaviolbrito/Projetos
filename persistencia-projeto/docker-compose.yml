@@ -1,0 +1,155 @@
+version: "3.8"
+
+services:
+
+  api--ecommerce:
+    container_name: api--ecommerce
+    restart: always
+    depends_on:
+      - service--cliente
+      - service--pedido
+      - service--produto
+      - jaeger
+      - redis
+    build:
+      context: ./api--ecommerce/
+    ports:
+      - "5000:5000"
+    environment:
+      SERVER_PORT: 5000
+      JAEGER_HOST: jaeger
+      REDIS_HOST: redis
+      SERVICE_CLIENTE_HOST: http://service--cliente:5000
+      SERVICE_PEDIDO_HOST: http://service--pedido:5000
+      SERVICE_PRODUTO_HOST: http://service--produto:5000
+
+  service--cliente:
+    container_name: service--cliente
+    restart: always
+    depends_on:
+      - mongodb
+      - jaeger
+    build:
+      context: ./service--cliente/
+    ports:
+      - "5001:5000"
+    environment:
+      SERVER_PORT: 5000
+      JAEGER_HOST: jaeger
+      MONGODB_HOST: mongodb
+
+  service--pedido:
+    container_name: service--pedido
+    restart: always
+    depends_on:
+      - mongodb
+      - jaeger
+    build:
+      context: ./service--pedido/
+    ports:
+      - "5002:5000"
+    environment:
+      SERVER_PORT: 5000
+      JAEGER_HOST: jaeger
+      MONGODB_HOST: mongodb
+
+  service--produto:
+    container_name: service--produto
+    restart: always
+    depends_on:
+      - mysql
+      - jaeger
+    build:
+      context: ./service--produto/
+    ports:
+      - "5003:5000"
+    environment:
+      SERVER_PORT: 5000
+      JAEGER_HOST: jaeger
+      MYSQLDB_HOST: mysql
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: mongo-express
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+
+  mysql:
+    image: mysql/mysql-server:8.0.27
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: db_produto
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+
+  redis:
+    image: redis:6.2.6-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    restart: always
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "9090:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9091:9090"
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: always
+    depends_on:
+      - prometheus
+    ports:
+      - "9092:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: root
+      GF_SECURITY_ADMIN_PASSWORD: root
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/data/grafana_data:/var/lib/grafana

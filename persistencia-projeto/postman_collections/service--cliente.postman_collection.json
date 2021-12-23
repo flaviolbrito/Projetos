@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "f745a8b2-81ce-4241-a565-c07d0d396e40",
+		"name": "service--cliente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{service-cliente-host}}/clientes",
+					"host": [
+						"{{service-cliente-host}}"
+					],
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Clientes por CPF",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{service-cliente-host}}/clientes/:cpf",
+					"host": [
+						"{{service-cliente-host}}"
+					],
+					"path": [
+						"clientes",
+						":cpf"
+					],
+					"variable": [
+						{
+							"key": "cpf",
+							"value": "97046458057"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

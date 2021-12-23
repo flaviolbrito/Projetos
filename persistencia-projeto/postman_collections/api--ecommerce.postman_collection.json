@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "3e7f2462-6c40-460d-adf6-23cf9dd1af4d",
+		"name": "api--ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "clientes",
+			"item": [
+				{
+					"name": "Buscar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/clientes",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Cliente por CPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/clientes/:cpf",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"clientes",
+								":cpf"
+							],
+							"variable": [
+								{
+									"key": "cpf",
+									"value": "97046458057"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "produtos",
+			"item": [
+				{
+					"name": "Buscar Produtos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/produtos",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Produtos por Código",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/produtos/:codigo",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"produtos",
+								":codigo"
+							],
+							"variable": [
+								{
+									"key": "codigo",
+									"value": "36c7e4b0-b178-4627-8d7b-23f5ceba598f"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pedidos",
+			"item": [
+				{
+					"name": "Buscar Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/pedidos",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Pedidos por CPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-ecommerce-host}}/pedidos/:cpf",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"pedidos",
+								":cpf"
+							],
+							"variable": [
+								{
+									"key": "cpf",
+									"value": "97046458057"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"97046458057\",\n    \"enderecoEntregaId\": \"6d566b6a-9ea7-46df-8e29-1e9509732a42\",\n    \"produtos\": [\n        {\n            \"codigo\": \"36c7e4b0-b178-4627-8d7b-23f5ceba598f\",\n            \"quantidade\": 1\n        },\n        {\n            \"codigo\": \"37ba3ca8-9e1c-412d-9acb-00f6eef26e0b\",\n            \"quantidade\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-ecommerce-host}}/pedidos",
+							"host": [
+								"{{api-ecommerce-host}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
